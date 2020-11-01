@@ -1,24 +1,53 @@
 <FolderWidget>:
 
-    l1: l1
+    Button:
+        pos: self.parent.pos
+        size: self.parent.size
+
+        Image:
+            source: 'sources/images/folder.png'
+            size_hint: None, None
+            height: self.parent.height
+            width: self.height
+            pos: (self.parent.x + 10, self.parent.y)
+
+        Label:
+            id: folder_label
+
+            size_hint: None, None
+            height: self.parent.height
+            width: self.parent.width - self.parent.height * 1.5
+            text_size: self.size
+            halign: "left"
+            valign: "middle"
+            pos: (self.parent.x + self.parent.height * 1.5 , self.parent.y)
+
+        Image:
+            source: 'sources/images/next_folder.png'
+            size_hint: None, None
+            height: self.parent.height * 0.5
+            width: self.height * 0.5
+            pos: (self.parent.width - self.parent.height * 0.5, self.parent.y + self.parent.height * 0.25)
+
+
+<FileWidget>:
 
     Button:
         pos: self.parent.pos
         size: self.parent.size
 
-
-
         Image:
-            source: 'sources/gg.png'
+            id: file_image
+
             size_hint: None, None
-            height: self.parent.height
-            width: self.height
-            pos: (root.x + 10, root.y)
+
+            size: self.parent.height * 0.9, self.parent.height * 0.9
+
+            pos: (self.parent.x + 10, self.parent.y + self.parent.height * 0.05)
 
         Label:
-            id: l1
-            # text: root.txt doesn't work as it should work
-            text: root.txt
+            id: file_label
+
             size_hint: None, None
             height: self.parent.height
             width: self.parent.width - self.parent.height * 1.5
@@ -28,7 +57,9 @@
             pos: (self.parent.x + self.parent.height * 1.5 , self.parent.y)
 
 
+
 <PageWidget>:
+
 
 
 
