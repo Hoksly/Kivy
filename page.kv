@@ -1,8 +1,14 @@
 <FolderWidget>:
-
     Button:
+
+        id: folder_button
         pos: self.parent.pos
         size: self.parent.size
+
+        on_press:
+            self.parent.switch_to()
+            app.root.current = self.parent.full_name
+
 
         Image:
             source: 'sources/images/folder.png'
@@ -13,7 +19,7 @@
 
         Label:
             id: folder_label
-
+            text: self.parent.text
             size_hint: None, None
             height: self.parent.height
             width: self.parent.width - self.parent.height * 1.5
@@ -35,7 +41,6 @@
     Button:
         pos: self.parent.pos
         size: self.parent.size
-
         Image:
             id: file_image
 
@@ -47,7 +52,6 @@
 
         Label:
             id: file_label
-
             size_hint: None, None
             height: self.parent.height
             width: self.parent.width - self.parent.height * 1.5
@@ -59,11 +63,3 @@
 
 
 <PageWidget>:
-
-
-
-
-<BoxLayout>:
-    orientation: 'vertical'
-
-
