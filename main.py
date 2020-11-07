@@ -1,4 +1,4 @@
-# from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.boxlayout import BoxLayout
 from kivy.app import App
 # from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
@@ -8,11 +8,12 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.widget import Widget
 # from kivy.uix.image import Image
-# from kivy.uix.button import Button
+from kivy.uix.button import Button
 from kivy.uix.screenmanager import Screen, ScreenManager
 
 # from kivy.config import Config
-# from kivy.properties import StringProperty
+from kivy.properties import NumericProperty
+from kivy.graphics import Color, Rectangle
 
 from kivy.core.window import Window
 from kivy.uix.scrollview import ScrollView
@@ -23,6 +24,8 @@ import os
 FILE_IMAGES = {'.txt': 'txt.png', '.mp3': 'mp3.png', '.log': 'txt.png'}
 W_HEIGHT = Window.height // 10  # height of folder and file widgets
 P_W_DISTANCE = 0  # distance between PageWidget and Folder/File Widget
+TOP_BAR_HEIGHT = W_HEIGHT/ 2
+PATH_LABEL_HEIGHT = W_HEIGHT / 2
 Manager = ScreenManager()
 
 
@@ -61,7 +64,7 @@ def show_dirs_and_files(directory, show_secrets=False):
                     else:
                         files.append(el)
     except:
-        return  [], []
+        return [], []
 
     return sorted(files), sorted(dirs)
 
@@ -91,7 +94,7 @@ def build_page(files, dirs, dir_name=''):
         f.full_name = dir_name + '/' + el
 
         root.add_widget(f)
-        print(f.height)
+
         del f
 
     top -= len(dirs) * W_HEIGHT
@@ -99,6 +102,7 @@ def build_page(files, dirs, dir_name=''):
     for el in files:
         i = files.index(el) + 1
         f = FileWidget(pos=(P_W_DISTANCE, top - i * W_HEIGHT), height=W_HEIGHT, width=root.width)
+
         try:
             f.ids.file_label.text = el
         except ValueError:
@@ -119,13 +123,33 @@ def build_page(files, dirs, dir_name=''):
         root.add_widget(f)
         del f, c_name, img_source
 
-
-    s = ScrollView(size=Window.size)
+    s = ScrollView(height=Window.height - PATH_LABEL_HEIGHT - TOP_BAR_HEIGHT, width=Window.width)
     s.add_widget(root)
+
+    n, q = Widget(size_hint=(None, None), size=s.size), Widget(size_hint=(None, None), size=Window.size)
+    n.add_widget(s)
+    q.add_widget(n)
+
+    p_l = BigClass(pos=(P_W_DISTANCE, q.height - TOP_BAR_HEIGHT - PATH_LABEL_HEIGHT), height=PATH_LABEL_HEIGHT,
+                   width=q.width)
+    p_l.ids.l1.text = dir_name
+
+    with p_l.canvas:
+        Color(0.86, 0.86, 0.86, 0.25)
+        Rectangle(pos=p_l.pos, size=p_l.size)
+
+    q.add_widget(p_l)
+
+    bar = TopBar(pos= (P_W_DISTANCE, q.height -TOP_BAR_HEIGHT), height= TOP_BAR_HEIGHT, width= q.width)
+    with bar.canvas:
+        Color(0.86, 0.86, 0.86, 0.25)
+        Rectangle(pos=bar.pos, size=bar.size)
+
+    q.add_widget(bar)
 
     screen = Screen()
     screen.name = dir_name
-    screen.add_widget(s)
+    screen.add_widget(q)
 
     return screen
 
@@ -178,6 +202,17 @@ class GoBackFolderWidget(FolderWidget):
             del f, d, page
         except:
             pass
+
+
+class BigClass(Widget):
+    pass
+
+
+class TopBar(Widget):
+    w_distance = NumericProperty()
+    h_d = NumericProperty()
+    w_d = NumericProperty()
+
 
 if __name__ == '__main__':
     main = PageApp()

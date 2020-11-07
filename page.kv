@@ -61,6 +61,56 @@
             pos: (self.parent.x + self.parent.height * 1.5 , self.parent.y)
 
 
+<BigClass>:
+    Label:
+        id: l1
+        height: self.parent.height
+        width: self.parent.width - self.parent.height
+        pos_hint: None, None
+        pos: self.parent.pos
 
-<GoBackFolderWidget>:
+        text_size: self.size
+        halign: "left"
+        valign: "middle"
 
+
+
+    Image:
+
+        y: self.parent.y
+        width: self.parent.height - 10
+        height: self.parent.height - 10
+        x: self.parent.width - self.width -5
+        y: self.parent.y + 5
+        source: 'sources/images/ViewChanger.png'
+
+<TopBar>:
+    w_distance: (self.width - self.height * 4) / 3
+    h_d: 3
+    w_d: 5
+
+    Image: # menu
+        x: self.parent.x + self.parent.w_d
+        y: self.parent.y + self.parent.h_d
+        height: self.parent.height - 6
+        width: self.height
+        source: ''
+
+    Image: # recently viewed
+        x: self.parent.x  + self.parent.w_distance + self.width
+        y: self.parent.y + self.parent.h_d
+        height: self.parent.height - 6
+        width: self.height
+        source: ''
+    Image: # all files
+        x: self.parent.x  + (self.parent.w_distance * 2) + (self.width * 2)
+        y: self.parent.y + self.parent.h_d
+        height: self.parent.height - 6
+        width: self.height
+        source: ''
+    Image: # search
+        x: (self.parent.w_distance * 3) + (self.width * 4) - self.parent.w_d
+        y: self.parent.y + self.parent.h_d
+        height: self.parent.height - 6
+        width: self.height
+        source: ''
